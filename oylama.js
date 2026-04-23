@@ -1,0 +1,34 @@
+const { Client, EmbedBuilder, PermissionsBitField } = require("discord.js");
+const db = require("croxydb")
+const Discord = require("discord.js")
+module.exports = {
+  name: "oylama",
+  description: "Oylama Yaparsın!",
+  type: 1,
+  options: [
+    {
+        name:"oylaman",
+        description:"Oylama Seçeneğini Gir!",
+        type:3,
+        required:true
+    },
+  ],
+
+  run: async(client, interaction) => {
+    if(!interaction.member.permissions.has(PermissionsBitField.Flags.ManageNicknames)) return interaction.reply({content: "İsimleri Yönet Yetkin Yok!", ephemeral: true})
+
+    const oylama = interaction.options.getString('oylaman')
+    const embed = new EmbedBuilder()
+    .setTitle("AYDOĞAN - Oylama Sistemi!")
+    .setDescription(`Oylama: **${oylama}**`)
+    .setColor("Green")
+    .setImage("https://cdn.discordapp.com/attachments/783055798229401660/929414481417756732/standard_5.gif")
+    interaction.channel.send({embeds: [embed]}).then((mesaj) => {
+interaction.reply({content: "Oylama Başarıyla Oluşturuldu.", ephemeral: true}) 
+mesaj.react("✅")
+mesaj.react("❌")
+
+})
+  }
+
+};
